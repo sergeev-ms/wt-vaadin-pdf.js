@@ -36,6 +36,8 @@ var zip = require('gulp-zip');
 var webpack2 = require('webpack');
 var webpackStream = require('webpack-stream');
 
+var WrapperPlugin = require('wrapper-webpack-plugin');
+
 var BUILD_DIR = 'build/';
 var JSDOC_DIR = 'jsdoc/';
 var L10N_DIR = 'l10n/';
@@ -95,12 +97,17 @@ function createWebpackConfig(defines, output) {
     BUNDLE_BUILD: versionInfo.commit
   });
   var licenseHeader = fs.readFileSync('./src/license_header.js').toString();
+  var whitesteinFactoryHeader = fs.readFileSync('./web/whitestein_factory_header.js').toString();
 
   return {
     output: output,
     plugins: [
+      new BlockRequirePlugin(),
+      new WrapperPlugin({
+        header: whitesteinFactoryHeader,
+        footer: '\n}\n',
+      }),
       new webpack2.BannerPlugin({banner: licenseHeader, raw: true}),
-      new BlockRequirePlugin()
     ],
     resolve: {
       alias: {
