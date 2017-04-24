@@ -1225,6 +1225,12 @@ var PDFViewerApplication = {
 
     var pagesOverview = this.pdfViewer.getPagesOverview();
     var printContainer = this.appConfig.printContainer;
+
+    // printContainer needs to be first body child
+    var body = document.getElementsByTagName("BODY")[0];
+    body.insertBefore(printContainer, body.firstChild);
+
+
     var printService = PDFPrintServiceFactory.instance.createPrintService(
       this.pdfDocument, pagesOverview, printContainer);
     this.printService = printService;
