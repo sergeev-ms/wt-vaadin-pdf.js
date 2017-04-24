@@ -495,11 +495,11 @@ var ProgressBar = (function ProgressBarClosure() {
     return Math.min(Math.max(v, min), max);
   }
 
-  function ProgressBar(id, opts) {
+  function ProgressBar(progressDiv, opts) {
     this.visible = true;
 
     // Fetch the sub-elements for later.
-    this.div = document.querySelector(id + ' .progress');
+    this.div = progressDiv;
 
     // Get the loading bar element, so it can be resized to fit the viewer.
     this.bar = this.div.parentNode;

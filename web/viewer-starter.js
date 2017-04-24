@@ -115,6 +115,7 @@ function getViewerConfiguration() {
       moreInfoButton: document.getElementById('errorShowMore'),
       lessInfoButton: document.getElementById('errorShowLess'),
     },
+    progressBar: document.querySelector('#loadingBar .progress'),
     printContainer: document.getElementById('printContainer'),
     openFileInputName: 'fileInput',
     debuggerScriptPath: './debugger.js',
