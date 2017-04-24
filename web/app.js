@@ -1816,7 +1816,11 @@ function webViewerOpenFile() {
   document.getElementById(openFileInputName).click();
 }
 function webViewerPrint() {
-  window.print();
+  if (PDFPrintServiceFactory.instance.windowPrint) {
+    PDFPrintServiceFactory.instance.windowPrint();
+  } else {
+    console.error('PDFPrintServiceFactory.instance.windowPrint not installed')
+  }
 }
 function webViewerDownload() {
   PDFViewerApplication.download();
@@ -1992,7 +1996,7 @@ function webViewerKeyDown(evt) {
   if (!PDFViewerApplication.isActivated) {
     return ;
   }
-  
+
   if (OverlayManager.active) {
     return;
   }

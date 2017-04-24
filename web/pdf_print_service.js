@@ -217,7 +217,7 @@
 
 
   var print = window.print;
-  window.print = function print() {
+  var printServiceWindowPrint = function print() {
     if (activeService) {
       console.warn('Ignored window.print() because of a pending print job.');
       return;
@@ -229,7 +229,7 @@
     });
 
     try {
-      dispatchEvent('beforeprint');
+      app.PDFViewerApplication.eventBus.dispatch('beforeprint');
     } finally {
       if (!activeService) {
         console.error('Expected print service to be initialized.');
@@ -265,12 +265,12 @@
   function abort() {
     if (activeService) {
       activeService.destroy();
-      dispatchEvent('afterprint');
+      app.PDFViewerApplication.eventBus.dispatch('afterprint');
     }
   }
 
   function renderProgress(index, total) {
-    var progressContainer = document.getElementById('printServiceOverlay');
+    var progressContainer = app.PDFViewerApplication.appConfig.printing.printServiceOverlay;
     var progress = Math.round(100 * index / total);
     var progressBar = progressContainer.querySelector('progress');
     var progressPerc = progressContainer.querySelector('.relative-progress');
@@ -286,7 +286,6 @@
     // Also intercept Cmd/Ctrl + Shift + P in Chrome and Opera
     if (event.keyCode === /* P= */ 80 && (event.ctrlKey || event.metaKey) &&
         !event.altKey && (!event.shiftKey || window.chrome || window.opera)) {
-      window.print();
       if (hasAttachEvent) {
         // Only attachEvent can cancel Ctrl + P dialog in IE <=10
         // attachEvent is gone in IE11, so the dialog will re-appear in IE11.
@@ -326,9 +325,8 @@
   var overlayPromise;
   function ensureOverlay() {
     if (!overlayPromise) {
-      overlayPromise = OverlayManager.register('printServiceOverlay',
-        document.getElementById('printServiceOverlay'), abort, true);
-      document.getElementById('printCancel').onclick = abort;
+      overlayPromise = OverlayManager.register('printServiceOverlay', app.PDFViewerApplication.appConfig.printing.printServiceOverlay, abort, true);
+      app.PDFViewerApplication.appConfig.printing.printCancel.onclick = abort;
     }
     return overlayPromise;
   }
@@ -343,7 +341,8 @@
       activeService = new PDFPrintService(pdfDocument, pagesOverview,
                                           printContainer);
       return activeService;
-    }
+    },
+    windowPrint: printServiceWindowPrint,
   };
 
   exports.PDFPrintService = PDFPrintService;
