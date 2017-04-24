@@ -116,10 +116,12 @@ function getViewerConfiguration() {
       lessInfoButton: document.getElementById('errorShowLess'),
     },
     progressBar: document.querySelector('#loadingBar .progress'),
+    progressBarOwner: document.body,
     printContainer: document.getElementById('printContainer'),
     openFileInputName: 'fileInput',
     debuggerScriptPath: './debugger.js',
-    defaultUrl: DEFAULT_URL
+    defaultUrl: DEFAULT_URL,
+    workerSrc: '../build/pdf.worker.js',
   };
 }
 

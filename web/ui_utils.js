@@ -495,11 +495,12 @@ var ProgressBar = (function ProgressBarClosure() {
     return Math.min(Math.max(v, min), max);
   }
 
-  function ProgressBar(progressDiv, opts) {
+  function ProgressBar(progressDiv, progressBarOwner, opts) {
     this.visible = true;
 
     // Fetch the sub-elements for later.
     this.div = progressDiv;
+    this.progressBarOwner = progressBarOwner;
 
     // Get the loading bar element, so it can be resized to fit the viewer.
     this.bar = this.div.parentNode;
@@ -555,7 +556,7 @@ var ProgressBar = (function ProgressBarClosure() {
       }
       this.visible = false;
       this.bar.classList.add('hidden');
-      document.body.classList.remove('loadingInProgress');
+      this.progressBarOwner.classList.remove('loadingInProgress');
     },
 
     show: function ProgressBar_show() {
@@ -563,7 +564,7 @@ var ProgressBar = (function ProgressBarClosure() {
         return;
       }
       this.visible = true;
-      document.body.classList.add('loadingInProgress');
+      this.progressBarOwner.classList.add('loadingInProgress');
       this.bar.classList.remove('hidden');
     }
   };

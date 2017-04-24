@@ -107,16 +107,16 @@ var RendererType = uiUtilsLib.RendererType;
 var DEFAULT_SCALE_DELTA = 1.1;
 var DISABLE_AUTO_FETCH_LOADING_BAR_TIMEOUT = 5000;
 
-function configure(PDFJS) {
+function configure(PDFJS, appConfig) {
   PDFJS.imageResourcesPath = './images/';
   if (typeof PDFJSDev !== 'undefined' &&
       PDFJSDev.test('FIREFOX || MOZCENTRAL || GENERIC || CHROME')) {
-    PDFJS.workerSrc = '../build/pdf.worker.js';
+    PDFJS.workerSrc = appConfig.workerSrc || '../build/pdf.worker.js';
   }
   if (typeof PDFJSDev === 'undefined' || !PDFJSDev.test('PRODUCTION')) {
     PDFJS.cMapUrl = '../external/bcmaps/';
     PDFJS.cMapPacked = true;
-    PDFJS.workerSrc = '../src/worker_loader.js';
+    PDFJS.workerSrc = appConfig.workerSrc || '../src/worker_loader.js';
     PDFJS.pdfjsNext = true;
   } else {
     PDFJS.cMapUrl = '../web/cmaps/';
@@ -207,7 +207,7 @@ var PDFViewerApplication = {
     Preferences.initialize();
     this.preferences = Preferences;
 
-    configure(PDFJS);
+    configure(PDFJS, appConfig);
     this.appConfig = appConfig;
 
     return this._readPreferences().then(function () {
@@ -527,7 +527,7 @@ var PDFViewerApplication = {
   },
 
   get loadingBar() {
-    var bar = new ProgressBar(PDFViewerApplication.appConfig.progressBar, {});
+    var bar = new ProgressBar(PDFViewerApplication.appConfig.progressBar, PDFViewerApplication.appConfig.progressBarOwner, {});
 
     return pdfjsLib.shadow(this, 'loadingBar', bar);
   },
@@ -2291,4 +2291,13 @@ var PDFPrintServiceFactory = {
 exports.PDFViewerApplication = PDFViewerApplication;
 exports.DefaultExernalServices = DefaultExernalServices;
 exports.PDFPrintServiceFactory = PDFPrintServiceFactory;
+
+// additional exports for java integration
+exports.webViewerOpenFileViaURL = webViewerOpenFileViaURL;
+//additional exports for java integration - paging
+exports.webViewerFirstPage = webViewerFirstPage;
+exports.webViewerLastPage = webViewerLastPage;
+exports.webViewerPreviousPage = webViewerPreviousPage;
+exports.webViewerNextPage = webViewerNextPage;
+exports.webViewerPageNumberChanged = webViewerPageNumberChanged;
 }));

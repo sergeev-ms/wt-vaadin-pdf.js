@@ -188,10 +188,12 @@ if (typeof PDFJSDev !== 'undefined' && PDFJSDev.test('CHROME || GENERIC')) {
 	   lessInfoButton: defaultToTag(configuration.errorWrapper.lessInfoButton)
 	  },
 	  progressBar: defaultToTag(configuration.progressBar),
+    progressBarOwner: defaultToTag(configuration.progressBarOwner),
 	  printContainer: defaultToTag(configuration.printContainer),
 	  openFileInputName: configuration.openFileInputName || 'fileInput',
 	  debuggerScriptPath: configuration.debuggerScriptPath || './debugger.js',
 	  defaultUrl: configuration.defaultUrl || DEFAULT_URL,
+    workerSrc: configuration.workerSrc || 'APP/PUBLISHED/pdf.worker.js'
 	 };
 	}
 

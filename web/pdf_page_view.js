@@ -441,9 +441,9 @@ var PDFPageView = (function PDFPageViewClosure() {
           self.paintTask = null;
         }
 
+        // removing error instanceof pdfjsLib.RenderingCancelledException
         if (((typeof PDFJSDev === 'undefined' ||
-              !PDFJSDev.test('PDFJS_NEXT')) && error === 'cancelled') ||
-            error instanceof pdfjsLib.RenderingCancelledException) {
+              !PDFJSDev.test('PDFJS_NEXT')) && error === 'cancelled')) {
           self.error = null;
           return Promise.resolve(undefined);
         }
@@ -636,8 +636,8 @@ var PDFPageView = (function PDFPageViewClosure() {
         if (cancelled) {
           if ((typeof PDFJSDev !== 'undefined' &&
                PDFJSDev.test('PDFJS_NEXT')) || pdfjsLib.PDFJS.pdfjsNext) {
-            throw new pdfjsLib.RenderingCancelledException(
-              'Rendering cancelled, page ' + self.id, 'svg');
+                 //changed from throw new pdfjsLib.RenderingCancelledException
+            throw 'Rendering cancelled, page ' + self.id + 'svg';
           } else {
             throw 'cancelled'; // eslint-disable-line no-throw-literal
           }
