@@ -142,6 +142,7 @@ var DefaultExernalServices = {
 };
 
 var PDFViewerApplication = {
+  isActivated: true,
   initialBookmark: document.location.hash.substring(1),
   initialDestination: null,
   initialized: false,
@@ -1966,6 +1967,16 @@ function webViewerWheel(evt) {
 }
 
 function webViewerClick(evt) {
+  var bounds = PDFViewerApplication.appConfig.mainContainer.getBoundingClientRect()
+
+  if (bounds.left <= evt.screenX && evt.screenX <= bounds.right && bounds.top <= evt.screenY && evt.screenY <= bounds.bottom) {
+    PDFViewerApplication.isActivated = true;
+  } else {
+    PDFViewerApplication.isActivated = false;
+
+    return ;
+  }
+
   if (!PDFViewerApplication.secondaryToolbar.isOpen) {
     return;
   }
@@ -1978,6 +1989,10 @@ function webViewerClick(evt) {
 }
 
 function webViewerKeyDown(evt) {
+  if (!PDFViewerApplication.isActivated) {
+    return ;
+  }
+  
   if (OverlayManager.active) {
     return;
   }
