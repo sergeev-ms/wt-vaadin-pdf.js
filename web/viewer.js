@@ -16,7 +16,7 @@
 
 'use strict';
 
-var DEFAULT_URL = 'compressed.tracemonkey-pldi-09.pdf';
+var DEFAULT_URL = null;
 
 if (typeof PDFJSDev !== 'undefined' && PDFJSDev.test('CHROME')) {
   (function rewriteUrlClosure() {
@@ -52,141 +52,155 @@ if (typeof PDFJSDev !== 'undefined' && PDFJSDev.test('CHROME || GENERIC')) {
   require('./pdf_print_service.js');
 }
 
-function getViewerConfiguration() {
-  return {
-    appContainer: document.body,
-    mainContainer: document.getElementById('viewerContainer'),
-    viewerContainer: document.getElementById('viewer'),
-    eventBus: null, // using global event bus with DOM events
-    toolbar: {
-      container: document.getElementById('toolbarViewer'),
-      numPages: document.getElementById('numPages'),
-      pageNumber: document.getElementById('pageNumber'),
-      scaleSelectContainer: document.getElementById('scaleSelectContainer'),
-      scaleSelect: document.getElementById('scaleSelect'),
-      customScaleOption: document.getElementById('customScaleOption'),
-      previous: document.getElementById('previous'),
-      next: document.getElementById('next'),
-      zoomIn: document.getElementById('zoomIn'),
-      zoomOut: document.getElementById('zoomOut'),
-      viewFind: document.getElementById('viewFind'),
-      openFile: document.getElementById('openFile'),
-      print: document.getElementById('print'),
-      presentationModeButton: document.getElementById('presentationMode'),
-      download: document.getElementById('download'),
-      viewBookmark: document.getElementById('viewBookmark'),
-    },
-    secondaryToolbar: {
-      toolbar: document.getElementById('secondaryToolbar'),
-      toggleButton: document.getElementById('secondaryToolbarToggle'),
-      toolbarButtonContainer:
-        document.getElementById('secondaryToolbarButtonContainer'),
-      presentationModeButton:
-        document.getElementById('secondaryPresentationMode'),
-      openFileButton: document.getElementById('secondaryOpenFile'),
-      printButton: document.getElementById('secondaryPrint'),
-      downloadButton: document.getElementById('secondaryDownload'),
-      viewBookmarkButton: document.getElementById('secondaryViewBookmark'),
-      firstPageButton: document.getElementById('firstPage'),
-      lastPageButton: document.getElementById('lastPage'),
-      pageRotateCwButton: document.getElementById('pageRotateCw'),
-      pageRotateCcwButton: document.getElementById('pageRotateCcw'),
-      toggleHandToolButton: document.getElementById('toggleHandTool'),
-      documentPropertiesButton: document.getElementById('documentProperties'),
-    },
-    fullscreen: {
-      contextFirstPage: document.getElementById('contextFirstPage'),
-      contextLastPage: document.getElementById('contextLastPage'),
-      contextPageRotateCw: document.getElementById('contextPageRotateCw'),
-      contextPageRotateCcw: document.getElementById('contextPageRotateCcw'),
-    },
-    sidebar: {
-      // Divs (and sidebar button)
-      mainContainer: document.getElementById('mainContainer'),
-      outerContainer: document.getElementById('outerContainer'),
-      toggleButton: document.getElementById('sidebarToggle'),
-      // Buttons
-      thumbnailButton: document.getElementById('viewThumbnail'),
-      outlineButton: document.getElementById('viewOutline'),
-      attachmentsButton: document.getElementById('viewAttachments'),
-      // Views
-      thumbnailView: document.getElementById('thumbnailView'),
-      outlineView: document.getElementById('outlineView'),
-      attachmentsView: document.getElementById('attachmentsView'),
-    },
-    findBar: {
-      bar: document.getElementById('findbar'),
-      toggleButton: document.getElementById('viewFind'),
-      findField: document.getElementById('findInput'),
-      highlightAllCheckbox: document.getElementById('findHighlightAll'),
-      caseSensitiveCheckbox: document.getElementById('findMatchCase'),
-      findMsg: document.getElementById('findMsg'),
-      findResultsCount: document.getElementById('findResultsCount'),
-      findStatusIcon: document.getElementById('findStatusIcon'),
-      findPreviousButton: document.getElementById('findPrevious'),
-      findNextButton: document.getElementById('findNext')
-    },
-    passwordOverlay: {
-      overlayName: 'passwordOverlay',
-      container: document.getElementById('passwordOverlay'),
-      label: document.getElementById('passwordText'),
-      input: document.getElementById('password'),
-      submitButton: document.getElementById('passwordSubmit'),
-      cancelButton: document.getElementById('passwordCancel')
-    },
-    documentProperties: {
-      overlayName: 'documentPropertiesOverlay',
-      container: document.getElementById('documentPropertiesOverlay'),
-      closeButton: document.getElementById('documentPropertiesClose'),
-      fields: {
-        'fileName': document.getElementById('fileNameField'),
-        'fileSize': document.getElementById('fileSizeField'),
-        'title': document.getElementById('titleField'),
-        'author': document.getElementById('authorField'),
-        'subject': document.getElementById('subjectField'),
-        'keywords': document.getElementById('keywordsField'),
-        'creationDate': document.getElementById('creationDateField'),
-        'modificationDate': document.getElementById('modificationDateField'),
-        'creator': document.getElementById('creatorField'),
-        'producer': document.getElementById('producerField'),
-        'version': document.getElementById('versionField'),
-        'pageCount': document.getElementById('pageCountField')
-      }
-    },
-    errorWrapper: {
-      container: document.getElementById('errorWrapper'),
-      errorMessage: document.getElementById('errorMessage'),
-      closeButton: document.getElementById('errorClose'),
-      errorMoreInfo: document.getElementById('errorMoreInfo'),
-      moreInfoButton: document.getElementById('errorShowMore'),
-      lessInfoButton: document.getElementById('errorShowLess'),
-    },
-    printContainer: document.getElementById('printContainer'),
-    openFileInputName: 'fileInput',
-    debuggerScriptPath: './debugger.js',
-    defaultUrl: DEFAULT_URL
-  };
+	function completeViewerConfiguration(configuration) {
+	  var prefix = prefix || '';
+
+	  function defaultToTag(value, defaultTag) {
+	    return value || document.createElement(defaultTag || "div");
+	  }
+
+	  function defaultToTag_withChild(value) {
+	    if (value) {
+	      return value;
+	    }
+
+	    var div = document.createElement("div");
+	    div.appendChild(document.createElement("div"));
+	    return div;
+	  }
+
+	  function defaultToTag_withParent(value) {
+		if (value) {
+		  return value;
+		}
+		
+	    var div = document.createElement("div");
+	    var child = document.createElement("div");
+	    div.appendChild(child);
+	    return child;
+	  }
+
+	 return {
+	  appContainer: configuration.appContainer,
+	  mainContainer: defaultToTag(configuration.mainContainer),
+	  viewerContainer: defaultToTag(configuration.viewerContainer),
+	  eventBus: configuration.eventBus,
+	  toolbar: {
+	   container:defaultToTag(configuration.toolbar.container),
+	   numPages: defaultToTag(configuration.toolbar.numPages),
+	   pageNumber: defaultToTag(configuration.toolbar.pageNumber),
+	   scaleSelectContainer: defaultToTag(configuration.toolbar.scaleSelectContainer),
+	   scaleSelect: defaultToTag(configuration.toolbar.scaleSelect, 'select'),
+	   customScaleOption: defaultToTag(configuration.toolbar.customScaleOption),
+	   previous: defaultToTag(configuration.toolbar.previous),
+	   next: defaultToTag(configuration.toolbar.next),
+	   zoomIn: defaultToTag(configuration.toolbar.zoomIn),
+	   zoomOut: defaultToTag(configuration.toolbar.zoomOut),
+	   viewFind: defaultToTag(configuration.toolbar.viewFind),
+	   openFile: defaultToTag(configuration.toolbar.openFile),
+	   print: defaultToTag(configuration.toolbar.print),
+	   presentationModeButton: defaultToTag(configuration.toolbar.presentationModeButton),
+	   download: defaultToTag(configuration.toolbar.download),
+	   viewBookmark: defaultToTag(configuration.toolbar.viewBookmark)
+	  },
+	  secondaryToolbar: {
+	   toolbar: defaultToTag(configuration.secondaryToolbar.toolbar),
+	   toggleButton:  defaultToTag(configuration.secondaryToolbar.toggleButton), //taka ta sipka uplne napravo co otvara dropdown menu
+	   toolbarButtonContainer:  defaultToTag(configuration.secondaryToolbar.secondaryToolbarButtonContainer),
+	   presentationModeButton:  defaultToTag(configuration.secondaryToolbar.presentationModeButton),
+	   openFileButton:  defaultToTag(configuration.secondaryToolbar.openFileButton),
+	   printButton:  defaultToTag(configuration.secondaryToolbar.printButton),
+	   downloadButton:  defaultToTag(configuration.secondaryToolbar.downloadButton),
+	   viewBookmarkButton:  defaultToTag(configuration.secondaryToolbar.viewBookmarkButton),
+	   firstPageButton: defaultToTag(configuration.secondaryToolbar.firstPageButton),
+	   lastPageButton: defaultToTag(configuration.secondaryToolbar.lastPageButton),
+	   pageRotateCwButton: defaultToTag(configuration.secondaryToolbar.pageRotateCwButton),
+	   pageRotateCcwButton: defaultToTag(configuration.secondaryToolbar.pageRotateCcwButton),
+	   toggleHandToolButton: defaultToTag(configuration.secondaryToolbar.toggleHandToolButton),
+	   documentPropertiesButton: defaultToTag(configuration.secondaryToolbar.documentPropertiesButton)
+	  },
+	  fullscreen: {
+	   contextFirstPage: defaultToTag(configuration.fullscreen.contextFirstPage),
+	   contextLastPage: defaultToTag(configuration.fullscreen.contextLastPage),
+	   contextPageRotateCw: defaultToTag(configuration.fullscreen.contextPageRotateCw),
+	   contextPageRotateCcw: defaultToTag(configuration.fullscreen.contextPageRotateCcw)
+	  },
+	  sidebar: { // this is visible on the left if the page outline is open
+	   mainContainer: defaultToTag(configuration.sidebar.mainContainer),
+	   outerContainer: defaultToTag(configuration.sidebar.outerContainer),
+	   toggleButton: defaultToTag(configuration.sidebar.toggleButton),
+	   thumbnailButton: defaultToTag(configuration.sidebar.thumbnailButton),
+	   outlineButton: defaultToTag(configuration.sidebar.outlineButton),
+	   attachmentsButton: defaultToTag(configuration.sidebar.attachmentsButton),
+	   thumbnailView: defaultToTag(configuration.sidebar.thumbnailView),
+	   outlineView: defaultToTag(configuration.sidebar.outlineView),
+	   attachmentsView: defaultToTag(configuration.sidebar.attachmentsView)
+	  },
+	  findBar: {
+	   bar: defaultToTag_withChild(configuration.findBar.bar),
+	   toggleButton: defaultToTag(configuration.findBar.toggleButton),
+	   findField: defaultToTag(configuration.findBar.findField, 'input'),
+	   highlightAllCheckbox: defaultToTag(configuration.findBar.highlightAllCheckbox),
+	   caseSensitiveCheckbox: defaultToTag(configuration.findBar.caseSensitiveCheckbox),
+	   findMsg: defaultToTag(configuration.findBar.findMsg),
+	   findResultsCount: defaultToTag(configuration.findBar.findResultsCount),
+	   findStatusIcon: defaultToTag(configuration.findBar.findStatusIcon),
+	   findPreviousButton: defaultToTag(configuration.findBar.findPreviousButton),
+	   findNextButton: defaultToTag(configuration.findBar.findNextButton)
+	  },
+	  passwordOverlay: {
+	   overlayName: configuration.passwordOverlay.overlayName || 'passwordOverlay',
+	   container: defaultToTag_withParent(configuration.passwordOverlay.container),
+	   label: defaultToTag(configuration.passwordOverlay.label),
+	   input: defaultToTag(configuration.passwordOverlay.input),
+	   submitButton: defaultToTag(configuration.passwordOverlay.submitButton),
+	   cancelButton: defaultToTag(configuration.passwordOverlay.cancelButton)
+	  },
+	  documentProperties: {
+	   overlayName: configuration.documentProperties.overlayName || 'documentPropertiesOverlay',
+	   container: defaultToTag_withParent(configuration.documentProperties.container),
+	   closeButton: defaultToTag(configuration.documentProperties.closeButton),
+	   fields: {
+	    'fileName': defaultToTag(configuration.documentProperties.fields.fileName),
+	    'fileSize': defaultToTag(configuration.documentProperties.fields.fileSize),
+	    'title': defaultToTag(configuration.documentProperties.fields.title),
+	    'author': defaultToTag(configuration.documentProperties.fields.author),
+	    'subject': defaultToTag(configuration.documentProperties.fields.subject),
+	    'keywords': defaultToTag(configuration.documentProperties.fields.keywords),
+	    'creationDate': defaultToTag(configuration.documentProperties.fields.creationDate),
+	    'modificationDate': defaultToTag(configuration.documentProperties.fields.modificationDate),
+	    'creator': defaultToTag(configuration.documentProperties.fields.creator),
+	    'producer': defaultToTag(configuration.documentProperties.fields.producer),
+	    'version': defaultToTag(configuration.documentProperties.fields.version),
+	    'pageCount': defaultToTag(configuration.documentProperties.fields.pageCount)
+	   }
+	  },
+	  printing: {
+        printServiceOverlay: defaultToTag_withParent(configuration.printing.printServiceOverlay),
+        printCancel: defaultToTag(configuration.printing.printCancel),
+      },
+	  errorWrapper: {
+	   container: defaultToTag(configuration.errorWrapper.container),
+	   errorMessage: defaultToTag(configuration.errorWrapper.errorMessage),
+	   closeButton: defaultToTag(configuration.errorWrapper.closeButton),
+	   errorMoreInfo: defaultToTag(configuration.errorWrapper.errorMoreInfo),
+	   moreInfoButton: defaultToTag(configuration.errorWrapper.moreInfoButton),
+	   lessInfoButton: defaultToTag(configuration.errorWrapper.lessInfoButton)
+	  },
+	  progressBar: defaultToTag(configuration.progressBar),
+	  printContainer: defaultToTag(configuration.printContainer),
+	  openFileInputName: configuration.openFileInputName || 'fileInput',
+	  debuggerScriptPath: configuration.debuggerScriptPath || './debugger.js',
+	  defaultUrl: configuration.defaultUrl || DEFAULT_URL,
+	 };
+	}
+
+function webViewerLoad(configuration) {
+  console.log('webViewerLoad', configuration, config)
+  var config = completeViewerConfiguration(configuration);
+  pdfjsWebApp.PDFViewerApplication.run(config);
+
+  return pdfjsWebApp;
 }
 
-function webViewerLoad() {
-  var config = getViewerConfiguration();
-  if (typeof PDFJSDev === 'undefined' || !PDFJSDev.test('PRODUCTION')) {
-    Promise.all([SystemJS.import('pdfjs-web/app'),
-                 SystemJS.import('pdfjs-web/pdf_print_service')])
-           .then(function (modules) {
-      var app = modules[0];
-      window.PDFViewerApplication = app.PDFViewerApplication;
-      app.PDFViewerApplication.run(config);
-    });
-  } else {
-    window.PDFViewerApplication = pdfjsWebApp.PDFViewerApplication;
-    pdfjsWebApp.PDFViewerApplication.run(config);
-  }
-}
-
-if (document.readyState === 'interactive' ||
-    document.readyState === 'complete') {
-  webViewerLoad();
-} else {
-  document.addEventListener('DOMContentLoaded', webViewerLoad, true);
-}
+exports.webViewerLoad = webViewerLoad;

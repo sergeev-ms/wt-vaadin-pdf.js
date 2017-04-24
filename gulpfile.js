@@ -605,6 +605,9 @@ gulp.task('generic', ['buildnumber', 'locale'], function () {
       'external/webL10n/l10n.js'
     ]).pipe(gulp.dest(GENERIC_DIR + 'web')),
     gulp.src([
+      'web/viewer-starter.js'
+    ]).pipe(gulp.dest(GENERIC_DIR + 'web')),
+    gulp.src([
       'web/locale/*/viewer.properties',
       'web/locale/locale.properties'
     ], {base: 'web/'}).pipe(gulp.dest(GENERIC_DIR + 'web')),
@@ -656,6 +659,7 @@ gulp.task('singlefile', ['buildnumber'], function () {
   return createBundle(defines).pipe(gulp.dest(SINGLE_FILE_BUILD_DIR));
 });
 
+//TODO: all changes done inside 'generic' must be copied here too
 gulp.task('minified-pre', ['buildnumber', 'locale'], function () {
   console.log();
   console.log('### Creating minified viewer');
@@ -690,6 +694,7 @@ gulp.task('minified', ['minified-pre'], function (done) {
   runSequence('minifiedpost', done);
 });
 
+//TODO does not work, not maintained -find out whether we need it and remove if we dont
 gulp.task('firefox-pre', ['buildnumber', 'locale'], function () {
   console.log();
   console.log('### Building Firefox extension');
@@ -801,6 +806,7 @@ gulp.task('firefox', ['firefox-pre'], function (done) {
   });
 });
 
+//TODO does not work, not maintained -find out whether we need it and remove if we dont
 gulp.task('mozcentral-pre', ['buildnumber', 'locale'], function () {
   console.log();
   console.log('### Building mozilla-central extension');
@@ -874,6 +880,7 @@ gulp.task('mozcentral-pre', ['buildnumber', 'locale'], function () {
 
 gulp.task('mozcentral', ['mozcentral-pre']);
 
+//TODO does not work, not maintained -find out whether we need it and remove if we dont
 gulp.task('chromium-pre', ['buildnumber', 'locale'], function () {
   console.log();
   console.log('### Building Chromium extension');
