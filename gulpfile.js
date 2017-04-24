@@ -87,7 +87,8 @@ function createStringSource(filename, content) {
   return source;
 }
 
-function createWebpackConfig(defines, output) {
+function createWebpackConfig(defines, output, options) {
+  options = options || {};
   var path = require('path');
   var BlockRequirePlugin = require('./external/webpack/block-require.js');
 
@@ -98,17 +99,21 @@ function createWebpackConfig(defines, output) {
   });
   var licenseHeader = fs.readFileSync('./src/license_header.js').toString();
   var whitesteinFactoryHeader = fs.readFileSync('./web/whitestein_factory_header.js').toString();
+  var whitesteinFactoryFooter = '\n}\n';
+
+  //define plugins
+  var plugins = [new BlockRequirePlugin()];
+  if (options.wrapperHeader && options.wrapperFooter) {
+    plugins.push(new WrapperPlugin({
+        header: options.wrapperHeader,
+        footer: options.wrapperFooter,
+      }));
+  }
+  plugins.push(new webpack2.BannerPlugin({banner: licenseHeader, raw: true}));
 
   return {
     output: output,
-    plugins: [
-      new BlockRequirePlugin(),
-      new WrapperPlugin({
-        header: whitesteinFactoryHeader,
-        footer: '\n}\n',
-      }),
-      new webpack2.BannerPlugin({banner: licenseHeader, raw: true}),
-    ],
+    plugins: plugins,
     resolve: {
       alias: {
         'pdfjs': path.join(__dirname, 'src'),
@@ -237,8 +242,13 @@ function createBundle(defines) {
 function createWebBundle(defines) {
   var viewerOutputName = 'viewer.js';
 
+  var whitesteinFactoryHeader = fs.readFileSync('./web/whitestein_factory_header.js').toString();
+
   var viewerFileConfig = createWebpackConfig(defines, {
     filename: viewerOutputName
+  }, {
+    wrapperHeader: whitesteinFactoryHeader,
+    wrapperFooter: '\n}\n',
   });
   return gulp.src('./web/viewer.js')
              .pipe(webpack2Stream(viewerFileConfig));
