@@ -196,7 +196,6 @@ if (typeof PDFJSDev !== 'undefined' && PDFJSDev.test('CHROME || GENERIC')) {
 	}
 
 function webViewerLoad(configuration) {
-  console.log('webViewerLoad', configuration, config)
   var config = completeViewerConfiguration(configuration);
   pdfjsWebApp.PDFViewerApplication.run(config);
 
