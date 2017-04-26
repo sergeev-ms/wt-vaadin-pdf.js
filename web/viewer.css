@@ -139,6 +139,7 @@ select {
   width: 100%;
   height: 100%;
   position: relative;
+  overflow: hidden;
 }
 
 .sidebarContainer {
@@ -256,6 +257,7 @@ select {
 
 .toolbarViewer {
   height: 32px;
+  position: relative;
 }
 
 .loadingBar {
@@ -421,8 +423,19 @@ select {
   margin-left: -9px;
 }
 
+.doorHangerRight:after {
+  right: 13px;
+  margin-right: -8px;
+}
+
+.doorHangerRight:before {
+  right: 13px;
+  margin-right: -9px;
+}
+
 .findResultsCount {
-  background-color: hsl(0, 0%, 85%);
+  /* hsl(0, 0%, 85%); */	
+  background-color: hsl(0, 1%, 50%);
   color: hsl(0, 0%, 32%);
   text-align: center;
   padding: 3px 4px;
@@ -444,6 +457,13 @@ select {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.toolbarViewerLeft {
+  height: 32px;
+	max-width: calc(100% - 50px);
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .toolbarViewerLeft {
@@ -688,7 +708,7 @@ select {
   background: hsl(0,0%,24%);
 }
 
-#customScaleOption {
+.customScaleOption {
   display: none;
 }
 
@@ -855,7 +875,6 @@ select {
 .secondaryToolbarButton.bookmark {
   padding-left: 27px;
 }
-
 .secondaryToolbarButton > span {
   padding-right: 4px;
 }
@@ -1176,6 +1195,10 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
   padding: 3px;
   font-size: 0.8em;
 }
+.loadingInProgress {
+  width: inherit;
+  height: inherit;
+}
 .loadingInProgress .errorWrapper {
   top: 37px;
 }
@@ -1400,7 +1423,26 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
 .grab-to-pan-grab *:not(input):not(textarea):not(button):not(select):not(:link) {
   cursor: inherit !important;
 }
-.grab-to-pan-grab:active,
+.grab-to-pan-grab:active {
+  cursor: url("images/grabbing.cur"), move !important;
+  cursor: -webkit-grabbing !important;
+  cursor: -moz-grabbing !important;
+  cursor: grabbing !important;
+
+/*
+  this needs to be commented, because hand tool does not work in chrome otherwise
+  
+  position: fixed;
+  background: transparent;
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 50000; */ /* should be higher than anything else in PDF.js! */
+}
+
 .grab-to-pan-grabbing {
   cursor: url("images/grabbing.cur"), move !important;
   cursor: -webkit-grabbing !important;
@@ -1418,11 +1460,9 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
   z-index: 50000; /* should be higher than anything else in PDF.js! */
 }
 
-@page {
-  margin: 0;
-}
-
-.printContainer {
+.visibleLargeView,
+.visibleMediumView,
+.visibleSmallView {
   display: none;
 }
 
@@ -1570,10 +1610,19 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
   }
 }
 
+.printContainer {
+  display: none;
+}
+
 @media print {
+  body * {
+    display: none;
+  }
+
   /* General rules for printing. */
   body {
     background: transparent none;
+    overflow: visible !important;
   }
 
   /* Rules for browsers that don't support mozPrintCallback. */
@@ -1616,7 +1665,14 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
   }
   .printContainer {
     height: 100%;
+    display: block;
+    overflow: visible;
   }
+
+  .printContainer * {
+    display: block;
+	}
+
   /* wrapper around (scaled) print canvas elements */
   .printContainer > div {
     position: relative;
@@ -1632,116 +1688,5 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
   .printContainer img {
     display: block;
   }
-}
-
-.visibleLargeView,
-.visibleMediumView,
-.visibleSmallView {
-  display: none;
-}
-
-@media all and (max-width: 1040px) {
-  .outerContainer.sidebarMoving .toolbarViewerMiddle,
-  .outerContainer.sidebarOpen .toolbarViewerMiddle {
-    display: table;
-    margin: auto;
-    left: auto;
-    position: inherit;
-    transform: none;
-  }
-}
-
-@media all and (max-width: 980px) {
-  .sidebarMoving .hiddenLargeView,
-  .sidebarOpen .hiddenLargeView {
-    display: none;
-  }
-  .sidebarMoving .visibleLargeView,
-  .sidebarOpen .visibleLargeView {
-    display: inherit;
-  }
-}
-
-@media all and (max-width: 900px) {
-  .toolbarViewerMiddle {
-    display: table;
-    margin: auto;
-    left: auto;
-    position: inherit;
-    transform: none;
-  }
-  .sidebarMoving .hiddenMediumView,
-  .sidebarOpen .hiddenMediumView {
-    display: none;
-  }
-  .sidebarMoving .visibleMediumView,
-  .sidebarOpen .visibleMediumView {
-    display: inherit;
-  }
-}
-
-@media all and (max-width: 840px) {
-  .sidebarContainer {
-    top: 32px;
-    z-index: 100;
-  }
-  .loadingInProgress .sidebarContainer {
-    top: 37px;
-  }
-  .sidebarContent {
-    top: 32px;
-    background-color: hsla(0,0%,0%,.7);
-  }
-
-  .outerContainer.sidebarOpen > .mainContainer {
-    left: 0px;
-  }
-
-  .outerContainer .hiddenLargeView,
-  .outerContainer .hiddenMediumView {
-    display: inherit;
-  }
-  .outerContainer .visibleLargeView,
-  .outerContainer .visibleMediumView {
-    display: none;
-  }
-}
-
-@media all and (max-width: 770px) {
-  .outerContainer .hiddenLargeView {
-    display: none;
-  }
-  .outerContainer .visibleLargeView {
-    display: inherit;
-  }
-}
-
-@media all and (max-width: 700px) {
-  .outerContainer .hiddenMediumView {
-    display: none;
-  }
-  .outerContainer .visibleMediumView {
-    display: inherit;
-  }
-}
-
-@media all and (max-width: 640px) {
-  .hiddenSmallView, .hiddenSmallView * {
-    display: none;
-  }
-  .visibleSmallView {
-    display: inherit;
-  }
-  .toolbarButtonSpacer {
-    width: 0;
-  }
-  .findbar {
-    left: 38px;
-  }
-}
-
-@media all and (max-width: 535px) {
-  .scaleSelectContainer {
-    display: none;
-  }
+  
 }
