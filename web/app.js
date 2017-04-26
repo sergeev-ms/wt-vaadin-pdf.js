@@ -194,7 +194,7 @@ var PDFViewerApplication = {
     renderInteractiveForms: false,
     enablePrintAutoRotate: false,
   },
-  isViewerEmbedded: (window.parent !== window),
+  isViewerEmbedded: true,
   url: '',
   baseUrl: '',
   externalServices: DefaultExernalServices,
@@ -1562,6 +1562,8 @@ function webViewerInitialized() {
 var webViewerOpenFileViaURL;
 if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
   webViewerOpenFileViaURL = function webViewerOpenFileViaURL(file) {
+    ensureOverlayClosed();
+
     if (file && file.lastIndexOf('file:', 0) === 0) {
       // file:-scheme. Load the contents in the main thread because QtWebKit
       // cannot load file:-URLs in a Web Worker. file:-URLs are usually loaded
@@ -1814,10 +1816,19 @@ if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
   };
 }
 
+function ensureOverlayClosed() {
+	 if (!OverlayManager || !OverlayManager.active) {
+	  return;
+	 }
+	 OverlayManager.close(OverlayManager.active);
+}
+
 function webViewerPresentationMode() {
   PDFViewerApplication.requestPresentationMode();
 }
 function webViewerOpenFile() {
+  ensureOverlayClosed();
+
   var openFileInputName = PDFViewerApplication.appConfig.openFileInputName;
   document.getElementById(openFileInputName).click();
 }
