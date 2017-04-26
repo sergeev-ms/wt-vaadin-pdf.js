@@ -811,11 +811,11 @@ select {
   content: url(images/toolbarButton-viewThumbnail.png);
 }
 
-#viewOutline.toolbarButton::before {
+.viewOutline.toolbarButton::before {
   content: url(images/toolbarButton-viewOutline.png);
 }
 
-#viewAttachments.toolbarButton::before {
+.viewAttachments.toolbarButton::before {
   content: url(images/toolbarButton-viewAttachments.png);
 }
 
@@ -1313,7 +1313,7 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
   top: 0;
 }
 
-#PDFBug {
+.PDFBug {
   background: none repeat scroll 0 0 white;
   border: 1px solid #666666;
   position: fixed;
@@ -1324,12 +1324,12 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
   padding: 0;
   width: 300px;
 }
-#PDFBug .controls {
+.PDFBug .controls {
     background:#EEEEEE;
     border-bottom: 1px solid #666666;
     padding: 3px;
 }
-#PDFBug .panels {
+.PDFBug .panels {
   bottom: 0;
   left: 0;
   overflow: auto;
@@ -1338,7 +1338,7 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
   right: 0;
   top: 27px;
 }
-#PDFBug button.active {
+.PDFBug button.active {
   font-weight: bold;
 }
 .debuggerShowText {
@@ -1348,15 +1348,15 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
 .debuggerHideText:hover {
   background: none repeat scroll 0 0 yellow;
 }
-#PDFBug .stats {
+.PDFBug .stats {
   font-family: courier;
   font-size: 10px;
   white-space: pre;
 }
-#PDFBug .stats .title {
+.PDFBug .stats .title {
     font-weight: bold;
 }
-#PDFBug table {
+.PDFBug table {
   font-size: 10px;
 }
 
@@ -1520,11 +1520,11 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
     content: url(images/toolbarButton-viewThumbnail@2x.png);
   }
 
-  #viewOutline.toolbarButton::before {
+  .viewOutline.toolbarButton::before {
     content: url(images/toolbarButton-viewOutline@2x.png);
   }
 
-  #viewAttachments.toolbarButton::before {
+  .viewAttachments.toolbarButton::before {
     content: url(images/toolbarButton-viewAttachments@2x.png);
   }
 
@@ -1577,7 +1577,7 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
   }
 
   /* Rules for browsers that don't support mozPrintCallback. */
-  .sidebarContainer, .secondaryToolbar, .toolbar, #loadingBox, .errorWrapper, .textLayer {
+  .sidebarContainer, .secondaryToolbar, .toolbar, .loadingBox, .errorWrapper, .textLayer {
     display: none;
   }
   .viewerContainer {
