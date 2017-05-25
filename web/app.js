@@ -1428,6 +1428,8 @@ function webViewerInitialized() {
     fileInput.id = appConfig.openFileInputName;
     fileInput.className = 'fileInput';
     fileInput.setAttribute('type', 'file');
+    // WT: the input field appeared randomly on the bottom of the page.
+    fileInput.setAttribute('hidden', 'true');
     fileInput.oncontextmenu = noContextMenuHandler;
     document.body.appendChild(fileInput);
 
