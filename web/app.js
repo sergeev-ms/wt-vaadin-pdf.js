@@ -143,7 +143,9 @@ var DefaultExernalServices = {
 
 var PDFViewerApplication = {
   isActivated: true,
-  initialBookmark: document.location.hash.substring(1),
+  // WT - do not expect initial bookmark (where exactly the document should be open) in browser url
+  //initialBookmark: document.location.hash.substring(1),
+  initialBookmark: null,
   initialDestination: null,
   initialized: false,
   fellback: false,
