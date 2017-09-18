@@ -101,6 +101,8 @@ function createWebpackConfig(defines, output, options) {
   var whitesteinFactoryHeader = fs.readFileSync('./web/whitestein_factory_header.js').toString();
   var whitesteinFactoryFooter = '\n}\n';
 
+  const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+  
   //define plugins
   var plugins = [new BlockRequirePlugin()];
   if (options.wrapperHeader && options.wrapperFooter) {
@@ -108,6 +110,9 @@ function createWebpackConfig(defines, output, options) {
         header: options.wrapperHeader,
         footer: options.wrapperFooter,
       }));
+  }
+  if (defines.MINIFIED === true) {
+    plugins.push(new UglifyJSPlugin());
   }
   plugins.push(new webpack2.BannerPlugin({banner: licenseHeader, raw: true}));
 

@@ -28,6 +28,7 @@
     "systemjs-plugin-babel": "0.0.21",
     "typogr": "~0.6.5",
     "uglify-js": "^2.6.1",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^2.2.1",
     "webpack-stream": "^3.2.0",
     "wintersmith": "^2.0.0",
