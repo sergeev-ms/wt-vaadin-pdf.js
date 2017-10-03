@@ -1347,15 +1347,17 @@ var PDFViewerApplication = {
       eventBus.dispatch('afterprint');
     });
     if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
-      window.addEventListener('change', function windowChange(evt) {
-        var files = evt.target.files;
-        if (!files || files.length === 0) {
-          return;
-        }
-        eventBus.dispatch('fileinputchange', {
-          fileInput: evt.target,
-        });
-      });
+      // WT: removed open file listener functionality. We dont want it in the widget, the 
+      //     files should be pushed in through java
+      // window.addEventListener('change', function windowChange(evt) {
+      //   var files = evt.target.files;
+      //   if (!files || files.length === 0) {
+      //     return;
+      //   }
+      //   eventBus.dispatch('fileinputchange', {
+      //     fileInput: evt.target,
+      //   });
+      // });
     }
   },
 };
