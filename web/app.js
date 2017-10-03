@@ -1335,11 +1335,13 @@ var PDFViewerApplication = {
     window.addEventListener('resize', function windowResize() {
       eventBus.dispatch('resize');
     });
-    window.addEventListener('hashchange', function windowHashChange() {
-      eventBus.dispatch('hashchange', {
-        hash: document.location.hash.substring(1),
-      });
-    });
+    // WT: removed hash changed listener functionality. We dont want it in the widget, the 
+    //     url does not contain location in the document anymore
+    // window.addEventListener('hashchange', function windowHashChange() {
+    //   eventBus.dispatch('hashchange', {
+    //     hash: document.location.hash.substring(1),
+    //   });
+    // });
     window.addEventListener('beforeprint', function windowBeforePrint() {
       eventBus.dispatch('beforeprint');
     });
