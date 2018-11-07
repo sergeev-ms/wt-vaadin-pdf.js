@@ -188,7 +188,7 @@ var PDFViewerApplication = {
   viewerPrefs: {
     sidebarViewOnLoad: SidebarView.NONE,
     pdfBugEnabled: false,
-    showPreviousViewOnLoad: true,
+    showPreviousViewOnLoad: false,
     defaultZoomValue: '',
     disablePageLabels: false,
     renderer: 'canvas',
@@ -200,6 +200,8 @@ var PDFViewerApplication = {
   url: '',
   baseUrl: '',
   externalServices: DefaultExernalServices,
+  // WT: added so that we can schedule additional configuration after initialization was fully dones
+  initializationPromisse: null,
 
   // called once when the document is loaded
   initialize: function pdfViewInitialize(appConfig) {
@@ -449,7 +451,8 @@ var PDFViewerApplication = {
   },
 
   run: function pdfViewRun(config) {
-    this.initialize(config).then(webViewerInitialized);
+    //WT: change - also store the promisse
+    this.initializationPromisse = this.initialize(config).then(webViewerInitialized);
   },
 
   zoomIn: function pdfViewZoomIn(ticks) {
@@ -1851,6 +1854,20 @@ function webViewerPrint() {
     console.error('PDFPrintServiceFactory.instance.windowPrint not installed')
   }
 }
+
+/**
+ * 
+ */
+function webViewerPreferences(preferences) {
+  if (PDFViewerApplication.initializationPromisse) {
+    PDFViewerApplication.initializationPromisse.then(function webViewerPreferences_inpromisse(){
+      if (preferences.showPreviousViewOnLoad != null) {
+        PDFViewerApplication.viewerPrefs.showPreviousViewOnLoad = preferences.showPreviousViewOnLoad;
+      }
+    });
+  }
+}
+
 function webViewerDownload() {
   PDFViewerApplication.download();
 }
@@ -2323,6 +2340,8 @@ exports.PDFPrintServiceFactory = PDFPrintServiceFactory;
 
 // additional exports for java integration
 exports.webViewerOpenFileViaURL = webViewerOpenFileViaURL;
+exports.webViewerPreferences = webViewerPreferences;
+
 //additional exports for java integration - paging
 exports.webViewerFirstPage = webViewerFirstPage;
 exports.webViewerLastPage = webViewerLastPage;
