@@ -40,6 +40,9 @@ var PAGE_NUMBER_LOADING_INDICATOR = 'visiblePageIsLoading';
 var SCALE_SELECT_CONTAINER_PADDING = 8;
 var SCALE_SELECT_PADDING = 22;
 
+var userAgent = (typeof navigator !== 'undefined' && navigator.userAgent) || '';
+var isIE = userAgent.indexOf('Trident') >= 0;
+
 /**
  * @typedef {Object} ToolbarOptions
  * @property {HTMLDivElement} container - Container for the secondary toolbar.
@@ -141,12 +144,24 @@ var Toolbar = (function ToolbarClosure() {
         this.select();
       });
 
-      items.pageNumber.addEventListener('change', function() {
-        eventBus.dispatch('pagenumberchanged', {
-          source: self,
-          value: this.value
+      if (isIE) {
+        // this is because ie is not reporting change event correctly
+        items.pageNumber.addEventListener('keyup', function(event) {
+          if (event.key === 'Enter') {
+            eventBus.dispatch('pagenumberchanged', {
+              source: self,
+              value: this.value
+            });
+          }
         });
-      });
+      } else {
+        items.pageNumber.addEventListener('change', function() {
+          eventBus.dispatch('pagenumberchanged', {
+            source: self,
+            value: this.value
+          });
+        });
+      }
 
       items.scaleSelect.addEventListener('change', function() {
         if (this.value === 'custom') {
