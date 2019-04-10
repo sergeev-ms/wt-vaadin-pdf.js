@@ -1576,7 +1576,7 @@ function webViewerInitialized() {
 
 var webViewerOpenFileViaURL;
 if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
-  webViewerOpenFileViaURL = function webViewerOpenFileViaURL(file) {
+  webViewerOpenFileViaURL = function webViewerOpenFileViaURL(file, onError) {
     ensureOverlayClosed();
 
     if (file && file.lastIndexOf('file:', 0) === 0) {
@@ -1586,7 +1586,9 @@ if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
       PDFViewerApplication.setTitleUsingUrl(file);
       var xhr = new XMLHttpRequest();
       xhr.onload = function() {
-        PDFViewerApplication.open(new Uint8Array(xhr.response));
+        PDFViewerApplication.open(new Uint8Array(xhr.response)).then(function(value) {
+          return value;
+        }, onError);
       };
       try {
         xhr.open('GET', file);
@@ -1600,7 +1602,9 @@ if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
     }
 
     if (file) {
-      PDFViewerApplication.open(file);
+      PDFViewerApplication.open(file).then(function(value) {
+        return value;
+      }, onError);
     }
   };
 } else if (PDFJSDev.test('FIREFOX || MOZCENTRAL || CHROME')) {
