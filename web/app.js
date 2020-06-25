@@ -1338,7 +1338,7 @@ var PDFViewerApplication = {
     window.addEventListener('resize', function windowResize() {
       eventBus.dispatch('resize');
     });
-    // WT: removed hash changed listener functionality. We dont want it in the widget, the 
+    // WT: removed hash changed listener functionality. We dont want it in the widget, the
     //     url does not contain location in the document anymore
     // window.addEventListener('hashchange', function windowHashChange() {
     //   eventBus.dispatch('hashchange', {
@@ -1352,7 +1352,7 @@ var PDFViewerApplication = {
       eventBus.dispatch('afterprint');
     });
     if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
-      // WT: removed open file listener functionality. We dont want it in the widget, the 
+      // WT: removed open file listener functionality. We dont want it in the widget, the
       //     files should be pushed in through java
       // window.addEventListener('change', function windowChange(evt) {
       //   var files = evt.target.files;
@@ -1373,7 +1373,7 @@ if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
     'http://mozilla.github.io', 'https://mozilla.github.io'];
   validateFileURL = function validateFileURL(file) {
     if (file==null) {
-      return ;      
+      return ;
     }
 
     try {
@@ -1860,7 +1860,7 @@ function webViewerPrint() {
 }
 
 /**
- * 
+ *
  */
 function webViewerPreferences(preferences) {
   if (PDFViewerApplication.initializationPromisse) {
@@ -2133,18 +2133,18 @@ function webViewerKeyDown(evt) {
     }
   }
 
-  if (typeof PDFJSDev === 'undefined' ||
-      !PDFJSDev.test('FIREFOX || MOZCENTRAL')) {
-    // CTRL or META without shift
-    if (cmd === 1 || cmd === 8) {
-      switch (evt.keyCode) {
-        case 83: // s
-          PDFViewerApplication.download();
-          handled = true;
-          break;
-      }
-    }
-  }
+  // if (typeof PDFJSDev === 'undefined' ||
+  //     !PDFJSDev.test('FIREFOX || MOZCENTRAL')) {
+  //   // CTRL or META without shift
+  //   if (cmd === 1 || cmd === 8) {
+  //     switch (evt.keyCode) {
+  //       case 83: // s
+  //         PDFViewerApplication.download();
+  //         handled = true;
+  //         break;
+  //     }
+  //   }
+  // }
 
   // CTRL+ALT or Option+Command
   if (cmd === 3 || cmd === 10) {
