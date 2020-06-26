@@ -1875,6 +1875,9 @@ function webViewerPreferences(preferences) {
 function webViewerDownload() {
   PDFViewerApplication.download();
 }
+function webViewerHandToolToggle() {
+  PDFViewerApplication.handTool.toggle();
+}
 function webViewerFirstPage() {
   if (PDFViewerApplication.pdfDocument) {
     PDFViewerApplication.page = 1;
@@ -2352,4 +2355,8 @@ exports.webViewerLastPage = webViewerLastPage;
 exports.webViewerPreviousPage = webViewerPreviousPage;
 exports.webViewerNextPage = webViewerNextPage;
 exports.webViewerPageNumberChanged = webViewerPageNumberChanged;
+
+// additional exports for java integration
+exports.webViewerDownload = webViewerDownload;
+exports.webViewerHandToolToggle = webViewerHandToolToggle;
 }));
