@@ -1331,7 +1331,7 @@ var PDFViewerApplication = {
   bindWindowEvents: function pdfViewBindWindowEvents() {
     var eventBus = this.eventBus;
 
-    window.addEventListener('wheel', webViewerWheel);
+    window.addEventListener('wheel', webViewerWheel, { passive: false, });
     window.addEventListener('click', webViewerClick);
     window.addEventListener('keydown', webViewerKeyDown);
 
