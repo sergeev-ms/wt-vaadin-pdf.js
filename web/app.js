@@ -2359,4 +2359,5 @@ exports.webViewerPageNumberChanged = webViewerPageNumberChanged;
 // additional exports for java integration
 exports.webViewerDownload = webViewerDownload;
 exports.webViewerHandToolToggle = webViewerHandToolToggle;
+exports.webViewerPrint = webViewerPrint;
 }));
