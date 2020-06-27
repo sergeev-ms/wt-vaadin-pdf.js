@@ -1576,7 +1576,7 @@ function webViewerInitialized() {
 
 var webViewerOpenFileViaURL;
 if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
-  webViewerOpenFileViaURL = function webViewerOpenFileViaURL(file, onError) {
+  webViewerOpenFileViaURL = function webViewerOpenFileViaURL(file, args, onError) {
     ensureOverlayClosed();
 
     if (file && file.lastIndexOf('file:', 0) === 0) {
@@ -1602,7 +1602,7 @@ if (typeof PDFJSDev === 'undefined' || PDFJSDev.test('GENERIC')) {
     }
 
     if (file) {
-      PDFViewerApplication.open(file).then(function(value) {
+      PDFViewerApplication.open(file, args).then(function(value) {
         return value;
       }, onError);
     }
