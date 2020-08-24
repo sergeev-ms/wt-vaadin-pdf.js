@@ -195,6 +195,7 @@ var PDFViewerApplication = {
     enhanceTextSelection: false,
     renderInteractiveForms: false,
     enablePrintAutoRotate: false,
+    zoomWithoutModifiers: false
   },
   isViewerEmbedded: true,
   url: '',
@@ -1871,7 +1872,9 @@ function webViewerPreferences(preferences) {
     });
   }
 }
-
+function webViewerZoomWithoutModifiers(zoomWithoutModifiers) {
+  PDFViewerApplication.viewerPrefs.zoomWithoutModifiers = zoomWithoutModifiers;
+}
 function webViewerDownload() {
   PDFViewerApplication.download();
 }
@@ -1977,7 +1980,7 @@ function webViewerWheel(evt) {
     return;
   }
 
-  if (evt.ctrlKey || evt.metaKey) {
+  if (evt.ctrlKey || evt.metaKey || PDFViewerApplication.viewerPrefs.zoomWithoutModifiers) {
     var support = PDFViewerApplication.supportedMouseWheelZoomModifierKeys;
     if ((evt.ctrlKey && !support.ctrlKey) ||
         (evt.metaKey && !support.metaKey)) {
@@ -2349,7 +2352,7 @@ exports.PDFPrintServiceFactory = PDFPrintServiceFactory;
 exports.webViewerOpenFileViaURL = webViewerOpenFileViaURL;
 exports.webViewerPreferences = webViewerPreferences;
 
-//additional exports for java integration - paging
+// additional exports for java integration - paging
 exports.webViewerFirstPage = webViewerFirstPage;
 exports.webViewerLastPage = webViewerLastPage;
 exports.webViewerPreviousPage = webViewerPreviousPage;
@@ -2360,4 +2363,5 @@ exports.webViewerPageNumberChanged = webViewerPageNumberChanged;
 exports.webViewerDownload = webViewerDownload;
 exports.webViewerHandToolToggle = webViewerHandToolToggle;
 exports.webViewerPrint = webViewerPrint;
+exports.webViewerZoomWithoutModifiers = webViewerZoomWithoutModifiers;
 }));
