@@ -52,150 +52,150 @@ if (typeof PDFJSDev !== 'undefined' && PDFJSDev.test('CHROME || GENERIC')) {
   require('./pdf_print_service.js');
 }
 
-	function completeViewerConfiguration(configuration) {
-	  var prefix = prefix || '';
+function completeViewerConfiguration(configuration) {
+  var prefix = prefix || '';
 
-	  function defaultToTag(value, defaultTag) {
-	    return value || document.createElement(defaultTag || "div");
-	  }
+  function defaultToTag(value, defaultTag) {
+    return value || document.createElement(defaultTag || 'div');
+  }
 
-	  function defaultToTag_withChild(value) {
-	    if (value) {
-	      return value;
-	    }
+  function defaultToTag_withChild(value) {
+    if (value) {
+      return value;
+    }
 
-	    var div = document.createElement("div");
-	    div.appendChild(document.createElement("div"));
-	    return div;
-	  }
+    var div = document.createElement('div');
+    div.appendChild(document.createElement('div'));
+    return div;
+  }
 
-	  function defaultToTag_withParent(value) {
-		if (value) {
-		  return value;
-		}
-		
-	    var div = document.createElement("div");
-	    var child = document.createElement("div");
-	    div.appendChild(child);
-	    return child;
-	  }
+  function defaultToTag_withParent(value) {
+    if (value) {
+      return value;
+    }
 
-	 return {
-	  appContainer: configuration.appContainer,
-	  mainContainer: defaultToTag(configuration.mainContainer),
-	  viewerContainer: defaultToTag(configuration.viewerContainer),
-	  eventBus: configuration.eventBus,
-	  toolbar: {
-	   container:defaultToTag(configuration.toolbar.container),
-	   numPages: defaultToTag(configuration.toolbar.numPages),
-	   pageNumber: defaultToTag(configuration.toolbar.pageNumber),
-	   scaleSelectContainer: defaultToTag(configuration.toolbar.scaleSelectContainer),
-	   scaleSelect: defaultToTag(configuration.toolbar.scaleSelect, 'select'),
-	   customScaleOption: defaultToTag(configuration.toolbar.customScaleOption),
-	   previous: defaultToTag(configuration.toolbar.previous),
-	   next: defaultToTag(configuration.toolbar.next),
-	   zoomIn: defaultToTag(configuration.toolbar.zoomIn),
-	   zoomOut: defaultToTag(configuration.toolbar.zoomOut),
-	   viewFind: defaultToTag(configuration.toolbar.viewFind),
-	   openFile: defaultToTag(configuration.toolbar.openFile),
-	   print: defaultToTag(configuration.toolbar.print),
-	   presentationModeButton: defaultToTag(configuration.toolbar.presentationModeButton),
-	   download: defaultToTag(configuration.toolbar.download),
-	   viewBookmark: defaultToTag(configuration.toolbar.viewBookmark)
-	  },
-	  secondaryToolbar: {
-	   toolbar: defaultToTag(configuration.secondaryToolbar.toolbar),
-	   toggleButton:  defaultToTag(configuration.secondaryToolbar.toggleButton), //taka ta sipka uplne napravo co otvara dropdown menu
-	   toolbarButtonContainer:  defaultToTag(configuration.secondaryToolbar.secondaryToolbarButtonContainer),
-	   presentationModeButton:  defaultToTag(configuration.secondaryToolbar.presentationModeButton),
-	   openFileButton:  defaultToTag(configuration.secondaryToolbar.openFileButton),
-	   printButton:  defaultToTag(configuration.secondaryToolbar.printButton),
-	   downloadButton:  defaultToTag(configuration.secondaryToolbar.downloadButton),
-	   viewBookmarkButton:  defaultToTag(configuration.secondaryToolbar.viewBookmarkButton),
-	   firstPageButton: defaultToTag(configuration.secondaryToolbar.firstPageButton),
-	   lastPageButton: defaultToTag(configuration.secondaryToolbar.lastPageButton),
-	   pageRotateCwButton: defaultToTag(configuration.secondaryToolbar.pageRotateCwButton),
-	   pageRotateCcwButton: defaultToTag(configuration.secondaryToolbar.pageRotateCcwButton),
-	   toggleHandToolButton: defaultToTag(configuration.secondaryToolbar.toggleHandToolButton),
-	   documentPropertiesButton: defaultToTag(configuration.secondaryToolbar.documentPropertiesButton)
-	  },
-	  fullscreen: {
-	   contextFirstPage: defaultToTag(configuration.fullscreen.contextFirstPage),
-	   contextLastPage: defaultToTag(configuration.fullscreen.contextLastPage),
-	   contextPageRotateCw: defaultToTag(configuration.fullscreen.contextPageRotateCw),
-	   contextPageRotateCcw: defaultToTag(configuration.fullscreen.contextPageRotateCcw)
-	  },
-	  sidebar: { // this is visible on the left if the page outline is open
-	   mainContainer: defaultToTag(configuration.sidebar.mainContainer),
-	   outerContainer: defaultToTag(configuration.sidebar.outerContainer),
-	   toggleButton: defaultToTag(configuration.sidebar.toggleButton),
-	   thumbnailButton: defaultToTag(configuration.sidebar.thumbnailButton),
-	   outlineButton: defaultToTag(configuration.sidebar.outlineButton),
-	   attachmentsButton: defaultToTag(configuration.sidebar.attachmentsButton),
-	   thumbnailView: defaultToTag(configuration.sidebar.thumbnailView),
-	   outlineView: defaultToTag(configuration.sidebar.outlineView),
-	   attachmentsView: defaultToTag(configuration.sidebar.attachmentsView)
-	  },
-	  findBar: {
-	   bar: defaultToTag_withChild(configuration.findBar.bar),
-	   toggleButton: defaultToTag(configuration.findBar.toggleButton),
-	   findField: defaultToTag(configuration.findBar.findField, 'input'),
-	   highlightAllCheckbox: defaultToTag(configuration.findBar.highlightAllCheckbox),
-	   caseSensitiveCheckbox: defaultToTag(configuration.findBar.caseSensitiveCheckbox),
-	   findMsg: defaultToTag(configuration.findBar.findMsg),
-	   findResultsCount: defaultToTag(configuration.findBar.findResultsCount),
-	   findStatusIcon: defaultToTag(configuration.findBar.findStatusIcon),
-	   findPreviousButton: defaultToTag(configuration.findBar.findPreviousButton),
-	   findNextButton: defaultToTag(configuration.findBar.findNextButton)
-	  },
-	  passwordOverlay: {
-	   overlayName: configuration.passwordOverlay.overlayName || 'passwordOverlay',
-	   container: defaultToTag_withParent(configuration.passwordOverlay.container),
-	   label: defaultToTag(configuration.passwordOverlay.label),
-	   input: defaultToTag(configuration.passwordOverlay.input),
-	   submitButton: defaultToTag(configuration.passwordOverlay.submitButton),
-	   cancelButton: defaultToTag(configuration.passwordOverlay.cancelButton)
-	  },
-	  documentProperties: {
-	   overlayName: configuration.documentProperties.overlayName || 'documentPropertiesOverlay',
-	   container: defaultToTag_withParent(configuration.documentProperties.container),
-	   closeButton: defaultToTag(configuration.documentProperties.closeButton),
-	   fields: {
-	    'fileName': defaultToTag(configuration.documentProperties.fields.fileName),
-	    'fileSize': defaultToTag(configuration.documentProperties.fields.fileSize),
-	    'title': defaultToTag(configuration.documentProperties.fields.title),
-	    'author': defaultToTag(configuration.documentProperties.fields.author),
-	    'subject': defaultToTag(configuration.documentProperties.fields.subject),
-	    'keywords': defaultToTag(configuration.documentProperties.fields.keywords),
-	    'creationDate': defaultToTag(configuration.documentProperties.fields.creationDate),
-	    'modificationDate': defaultToTag(configuration.documentProperties.fields.modificationDate),
-	    'creator': defaultToTag(configuration.documentProperties.fields.creator),
-	    'producer': defaultToTag(configuration.documentProperties.fields.producer),
-	    'version': defaultToTag(configuration.documentProperties.fields.version),
-	    'pageCount': defaultToTag(configuration.documentProperties.fields.pageCount)
-	   }
-	  },
-	  printing: {
-        printServiceOverlay: defaultToTag_withParent(configuration.printing.printServiceOverlay),
-        printCancel: defaultToTag(configuration.printing.printCancel),
-      },
-	  errorWrapper: {
-	   container: defaultToTag(configuration.errorWrapper.container),
-	   errorMessage: defaultToTag(configuration.errorWrapper.errorMessage),
-	   closeButton: defaultToTag(configuration.errorWrapper.closeButton),
-	   errorMoreInfo: defaultToTag(configuration.errorWrapper.errorMoreInfo),
-	   moreInfoButton: defaultToTag(configuration.errorWrapper.moreInfoButton),
-	   lessInfoButton: defaultToTag(configuration.errorWrapper.lessInfoButton)
-	  },
-	  progressBar: defaultToTag(configuration.progressBar),
+    var div = document.createElement('div');
+    var child = document.createElement('div');
+    div.appendChild(child);
+    return child;
+  }
+
+  return {
+    appContainer: configuration.appContainer,
+    mainContainer: defaultToTag(configuration.mainContainer),
+    viewerContainer: defaultToTag(configuration.viewerContainer),
+    eventBus: configuration.eventBus,
+    toolbar: {
+      container: defaultToTag(configuration.toolbar.container),
+      numPages: defaultToTag(configuration.toolbar.numPages),
+      pageNumber: defaultToTag(configuration.toolbar.pageNumber),
+      scaleSelectContainer: defaultToTag(configuration.toolbar.scaleSelectContainer),
+      scaleSelect: defaultToTag(configuration.toolbar.scaleSelect, 'select'),
+      customScaleOption: defaultToTag(configuration.toolbar.customScaleOption),
+      previous: defaultToTag(configuration.toolbar.previous),
+      next: defaultToTag(configuration.toolbar.next),
+      zoomIn: defaultToTag(configuration.toolbar.zoomIn),
+      zoomOut: defaultToTag(configuration.toolbar.zoomOut),
+      viewFind: defaultToTag(configuration.toolbar.viewFind),
+      openFile: defaultToTag(configuration.toolbar.openFile),
+      print: defaultToTag(configuration.toolbar.print),
+      presentationModeButton: defaultToTag(configuration.toolbar.presentationModeButton),
+      download: defaultToTag(configuration.toolbar.download),
+      viewBookmark: defaultToTag(configuration.toolbar.viewBookmark)
+    },
+    secondaryToolbar: {
+      toolbar: defaultToTag(configuration.secondaryToolbar.toolbar),
+      toggleButton: defaultToTag(configuration.secondaryToolbar.toggleButton), // taka ta sipka uplne napravo co otvara dropdown menu
+      toolbarButtonContainer: defaultToTag(configuration.secondaryToolbar.secondaryToolbarButtonContainer),
+      presentationModeButton: defaultToTag(configuration.secondaryToolbar.presentationModeButton),
+      openFileButton: defaultToTag(configuration.secondaryToolbar.openFileButton),
+      printButton: defaultToTag(configuration.secondaryToolbar.printButton),
+      downloadButton: defaultToTag(configuration.secondaryToolbar.downloadButton),
+      viewBookmarkButton: defaultToTag(configuration.secondaryToolbar.viewBookmarkButton),
+      firstPageButton: defaultToTag(configuration.secondaryToolbar.firstPageButton),
+      lastPageButton: defaultToTag(configuration.secondaryToolbar.lastPageButton),
+      pageRotateCwButton: defaultToTag(configuration.secondaryToolbar.pageRotateCwButton),
+      pageRotateCcwButton: defaultToTag(configuration.secondaryToolbar.pageRotateCcwButton),
+      toggleHandToolButton: defaultToTag(configuration.secondaryToolbar.toggleHandToolButton),
+      documentPropertiesButton: defaultToTag(configuration.secondaryToolbar.documentPropertiesButton)
+    },
+    fullscreen: {
+      contextFirstPage: defaultToTag(configuration.fullscreen.contextFirstPage),
+      contextLastPage: defaultToTag(configuration.fullscreen.contextLastPage),
+      contextPageRotateCw: defaultToTag(configuration.fullscreen.contextPageRotateCw),
+      contextPageRotateCcw: defaultToTag(configuration.fullscreen.contextPageRotateCcw)
+    },
+    sidebar: { // this is visible on the left if the page outline is open
+      mainContainer: defaultToTag(configuration.sidebar.mainContainer),
+      outerContainer: defaultToTag(configuration.sidebar.outerContainer),
+      toggleButton: defaultToTag(configuration.sidebar.toggleButton),
+      thumbnailButton: defaultToTag(configuration.sidebar.thumbnailButton),
+      outlineButton: defaultToTag(configuration.sidebar.outlineButton),
+      attachmentsButton: defaultToTag(configuration.sidebar.attachmentsButton),
+      thumbnailView: defaultToTag(configuration.sidebar.thumbnailView),
+      outlineView: defaultToTag(configuration.sidebar.outlineView),
+      attachmentsView: defaultToTag(configuration.sidebar.attachmentsView)
+    },
+    findBar: {
+      bar: defaultToTag_withChild(configuration.findBar.bar),
+      toggleButton: defaultToTag(configuration.findBar.toggleButton),
+      findField: defaultToTag(configuration.findBar.findField, 'input'),
+      highlightAllCheckbox: defaultToTag(configuration.findBar.highlightAllCheckbox),
+      caseSensitiveCheckbox: defaultToTag(configuration.findBar.caseSensitiveCheckbox),
+      findMsg: defaultToTag(configuration.findBar.findMsg),
+      findResultsCount: defaultToTag(configuration.findBar.findResultsCount),
+      findStatusIcon: defaultToTag(configuration.findBar.findStatusIcon),
+      findPreviousButton: defaultToTag(configuration.findBar.findPreviousButton),
+      findNextButton: defaultToTag(configuration.findBar.findNextButton)
+    },
+    passwordOverlay: {
+      overlayName: configuration.passwordOverlay.overlayName || 'passwordOverlay',
+      container: defaultToTag_withParent(configuration.passwordOverlay.container),
+      label: defaultToTag(configuration.passwordOverlay.label),
+      input: defaultToTag(configuration.passwordOverlay.input),
+      submitButton: defaultToTag(configuration.passwordOverlay.submitButton),
+      cancelButton: defaultToTag(configuration.passwordOverlay.cancelButton)
+    },
+    documentProperties: {
+      overlayName: configuration.documentProperties.overlayName || 'documentPropertiesOverlay',
+      container: defaultToTag_withParent(configuration.documentProperties.container),
+      closeButton: defaultToTag(configuration.documentProperties.closeButton),
+      fields: {
+        'fileName': defaultToTag(configuration.documentProperties.fields.fileName),
+        'fileSize': defaultToTag(configuration.documentProperties.fields.fileSize),
+        'title': defaultToTag(configuration.documentProperties.fields.title),
+        'author': defaultToTag(configuration.documentProperties.fields.author),
+        'subject': defaultToTag(configuration.documentProperties.fields.subject),
+        'keywords': defaultToTag(configuration.documentProperties.fields.keywords),
+        'creationDate': defaultToTag(configuration.documentProperties.fields.creationDate),
+        'modificationDate': defaultToTag(configuration.documentProperties.fields.modificationDate),
+        'creator': defaultToTag(configuration.documentProperties.fields.creator),
+        'producer': defaultToTag(configuration.documentProperties.fields.producer),
+        'version': defaultToTag(configuration.documentProperties.fields.version),
+        'pageCount': defaultToTag(configuration.documentProperties.fields.pageCount)
+      }
+    },
+    printing: {
+      printServiceOverlay: defaultToTag_withParent(configuration.printing.printServiceOverlay),
+      printCancel: defaultToTag(configuration.printing.printCancel),
+    },
+    errorWrapper: {
+      container: defaultToTag(configuration.errorWrapper.container),
+      errorMessage: defaultToTag(configuration.errorWrapper.errorMessage),
+      closeButton: defaultToTag(configuration.errorWrapper.closeButton),
+      errorMoreInfo: defaultToTag(configuration.errorWrapper.errorMoreInfo),
+      moreInfoButton: defaultToTag(configuration.errorWrapper.moreInfoButton),
+      lessInfoButton: defaultToTag(configuration.errorWrapper.lessInfoButton)
+    },
+    progressBar: defaultToTag(configuration.progressBar),
     progressBarOwner: defaultToTag(configuration.progressBarOwner),
 	  printContainer: defaultToTag(configuration.printContainer),
-	  openFileInputName: configuration.openFileInputName || 'fileInput',
-	  debuggerScriptPath: configuration.debuggerScriptPath || './debugger.js',
-	  defaultUrl: configuration.defaultUrl || DEFAULT_URL,
+    openFileInputName: configuration.openFileInputName || 'fileInput',
+    debuggerScriptPath: configuration.debuggerScriptPath || './debugger.js',
+    defaultUrl: configuration.defaultUrl || DEFAULT_URL,
     workerSrc: configuration.workerSrc || 'APP/PUBLISHED/pdf.worker.js'
-	 };
-	}
+  };
+}
 
 function webViewerLoad(configuration) {
   var config = completeViewerConfiguration(configuration);
